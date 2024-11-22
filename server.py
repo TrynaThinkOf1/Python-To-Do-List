@@ -1,6 +1,6 @@
-import list
-
 from flask import Flask, redirect, request, render_template, jsonify
+
+to_dos = {}
 
 site = Flask(__name__)
 
@@ -12,19 +12,18 @@ def index():
 def add():
     name = request.args.get('name')
     desc = request.args.get('desc')
-    print(name, desc)
-    list.to_dos[name] = desc
+    to_dos[name] = desc
     return redirect("/", code=302)
 
 @site.route("/remove", methods=['GET'])
 def remove():
     name = request.args.get('name')
-    list.to_dos.pop(name)
+    to_dos.pop(name)
     return redirect("/", code=302)
 
 @site.route('/show', methods=['GET'])
 def show_todos():
-    return jsonify(list.to_dos)
+    return jsonify(to_dos)
 
 if __name__ == "__main__":
     site.run(debug=True)
