@@ -3,31 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>To-Do List</title>
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-<!-- To-Do List Section -->
-<div class="todo-list-section">
-    <h1>To-Do List</h1>
-    <ul id="todo-list">
-        <!-- Dynamic List Items will be inserted here by the script -->
-    </ul>
+<div class="container">
+    <!-- Add and Remove Task Section -->
+    <div class="form-container">
+        <!-- Add a new task -->
+        <form action="/add" method="GET" class="form-section">
+            <h2>Add a new task</h2>
+            <input type="text" name="name" placeholder="Name">
+            <input type="text" name="desc" placeholder="Description">
+            <input type="submit" value="Add">
+        </form>
+
+        <!-- Remove a task -->
+        <form action="/remove" method="GET" class="form-section">
+            <h2>Remove a task</h2>
+            <input type="text" name="name" placeholder="Name">
+            <input type="submit" value="Remove">
+        </form>
+    </div>
+
+    <!-- To-Do List Section -->
+    <div class="todo-list-section">
+        <h1>To-Do List</h1>
+        <ul id="todo-list">
+            <!-- Dynamic List Items will be inserted here by the script -->
+        </ul>
+    </div>
 </div>
-
-<!-- Add a new task -->
-<form action="/add" method="GET" class="form-section">
-    <h2>Add a new task</h2>
-    <input type="text" name="name" placeholder="Name">
-    <input type="text" name="desc" placeholder="Description">
-    <input type="submit" value="Add">
-</form>
-
-<!-- Remove a task -->
-<form action="/remove" method="GET" class="form-section">
-    <h2>Remove a task</h2>
-    <input type="text" name="name" placeholder="Name">
-    <input type="submit" value="Remove">
-</form>
 
 <script>
     // Fetch the to-do items from the server and populate the list
@@ -36,11 +41,13 @@
         .then(toDos => {
             const todoListElement = document.getElementById('todo-list');
             todoListElement.innerHTML = ''; // Clear current list
-
-            for (let key in toDos) {
+            for (let name in toDos) {
                 let listItem = document.createElement('li');
                 listItem.className = 'todo-item';
-                listItem.textContent = key;
+                listItem.textContent = name;
+                listItem.onclick = () => {
+                    listItem.textContent = toDos[name];
+                };
                 todoListElement.appendChild(listItem);
             }
         })
