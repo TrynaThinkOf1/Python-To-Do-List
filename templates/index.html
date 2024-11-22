@@ -41,13 +41,23 @@
         .then(toDos => {
             const todoListElement = document.getElementById('todo-list');
             todoListElement.innerHTML = ''; // Clear current list
+
             for (let name in toDos) {
                 let listItem = document.createElement('li');
                 listItem.className = 'todo-item';
                 listItem.textContent = name;
+                listItem.dataset.state = 'name'; // Initial state is name
+
                 listItem.onclick = () => {
-                    listItem.textContent = toDos[name];
+                    if (listItem.dataset.state === 'name') {
+                        listItem.textContent = toDos[name];
+                        listItem.dataset.state = 'desc';
+                    } else {
+                        listItem.textContent = name;
+                        listItem.dataset.state = 'name';
+                    }
                 };
+
                 todoListElement.appendChild(listItem);
             }
         })

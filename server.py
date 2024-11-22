@@ -14,7 +14,13 @@ def add():
     desc = request.args.get('desc')
     print(name, desc)
     list.to_dos[name] = desc
-    return redirect("/")
+    return redirect("/", code=302)
+
+@site.route("/remove", methods=['GET'])
+def remove():
+    name = request.args.get('name')
+    list.to_dos.pop(name)
+    return redirect("/", code=302)
 
 @site.route('/show', methods=['GET'])
 def show_todos():
