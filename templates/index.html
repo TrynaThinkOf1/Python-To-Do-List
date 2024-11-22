@@ -3,19 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>To-Do List</title>
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <form action="/add" method="GET">
-        <h1>To-Do List</h1>
-        <h2>Add a new task</h2>
-        <input type="text" name="name" placeholder="Name">
-        <input type="text" name="desc" placeholder="Description">
-        <input type="submit" value="Add">
-    </form>
-    <form action="/remove" method="GET">
-        <h2>remove a  task</h2>
-        <input type="text" name="name" placeholder="Name">
-        <input type="submit" value="Remove">
-    </form>
+<!-- To-Do List Section -->
+<div class="todo-list-section">
+    <h1>To-Do List</h1>
+    <ul id="todo-list">
+        <!-- Dynamic List Items will be inserted here by the script -->
+    </ul>
+</div>
+
+<!-- Add a new task -->
+<form action="/add" method="GET" class="form-section">
+    <h2>Add a new task</h2>
+    <input type="text" name="name" placeholder="Name">
+    <input type="text" name="desc" placeholder="Description">
+    <input type="submit" value="Add">
+</form>
+
+<!-- Remove a task -->
+<form action="/remove" method="GET" class="form-section">
+    <h2>Remove a task</h2>
+    <input type="text" name="name" placeholder="Name">
+    <input type="submit" value="Remove">
+</form>
+
+<script>
+    // Fetch the to-do items from the server and populate the list
+    fetch('/show')
+        .then(response => response.json())
+        .then(toDos => {
+            const todoListElement = document.getElementById('todo-list');
+            todoListElement.innerHTML = ''; // Clear current list
+
+            for (let key in toDos) {
+                let listItem = document.createElement('li');
+                listItem.className = 'todo-item';
+                listItem.textContent = key;
+                todoListElement.appendChild(listItem);
+            }
+        })
+        .catch(error => console.error('Error fetching to-dos:', error));
+</script>
 </body>
 </html>
