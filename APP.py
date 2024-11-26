@@ -4,7 +4,7 @@ to_dos = {}
 
 app = ctk.CTk()
 ctk.set_default_color_theme("themes/violet.json")
-app.geometry("750x750")
+app.geometry("600x600")
 
 
 def add():
