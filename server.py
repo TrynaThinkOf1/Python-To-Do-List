@@ -6,7 +6,7 @@ site = Flask(__name__)
 
 @site.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html") #main page
 
 @site.route("/add", methods=['GET'])
 def add():
